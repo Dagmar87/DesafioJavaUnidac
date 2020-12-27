@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templatePrincipal.xhtml">
+
+	<ui:define name="cabecalho">
+
+		<h1 align="center"
+			style="background-color: lightblue; color: darkblue;">Consulta
+			de Usuario</h1>
+
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:growl id="growl" showDetail="true" sticky="true" />
+
+		<p:panelGrid columns="2" style="width: 100%; margin-top:10px;">
+
+			<p:outputLabel value="CPF: " style="color: black; font-weight: bold " />
+			<p:inputMask mask="999.999.999-99" value="#{UsuarioBean.usuario.cpf}"
+				style="margin-left:10px" />
+
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" style="width: 100%; margin-top:10px">
+
+			<p:commandButton value="Pesquisar" style="color: darkblue"
+				actionListener="#{UsuarioBean.pesquisar}" update="@form" />
+
+		</p:panelGrid>
+
+		<p:fieldset legend="Resultado da Pesquisa"
+			style="width: 1000px; margin-top:10px;">
+
+			<p:dataTable value="#{UsuarioBean.listaUsuarios}" var="usuario">
+
+				<p:column headerText="CPF" style="color: black">
+					<h:outputText value="#{usuario.cpf}" />
+				</p:column>
+
+				<p:column headerText="Nome" style="color: black">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+
+				<p:column headerText="Data de Nascimento" style="color: black">
+					<h:outputText value="#{usuario.dataNascimento}" />
+				</p:column>
+
+				<p:column headerText="Atualizar" style="color: darkblue">
+					<p:commandButton value="Atualizar"
+						onclick="PF('telaAtualizar').show();" update="@form">
+						<f:setPropertyActionListener value="#{usuario.cpf}"
+							target="#{UsuarioBean.cpfUsuario}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Remover" style="color: purple">
+					<p:commandButton value="Remover" action="#{UsuarioBean.remover}"
+						update="@form">
+						<f:setPropertyActionListener value="#{usuario.cpf}"
+							target="#{UsuarioBean.cpfUsuario}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<h:form id="formEditar">
+
+				<p:dialog header="Tela de Atualização de Usuario"
+					widgetVar="telaAtualizar" modal="true">
+
+					<p:growl id="growl" showDetail="true" sticky="true" />
+
+
+					<p:panelGrid columns="2" style="width: 100%; margin-top:10px;">
+
+						<p:outputLabel value="CPF: "
+							style="color: black; font-weight: bold " />
+						<p:inputMask mask="999.999.999-99"
+							value="#{UsuarioBean.usuario.cpf}" />
+
+						<p:outputLabel value="Nome: "
+							style="color: black; font-weight: bold " />
+						<p:inputText value="#{UsuarioBean.usuario.nome}" />
+
+						<p:outputLabel value="Data de nascimento: "
+							style="color: black; font-weight: bold " />
+						<p:calendar value="#{UsuarioBean.usuario.dataNascimento}"
+							showOn="button" pattern="dd/MM/yyyy" />
+
+						<p:outputLabel value="Senha: "
+							style="color: black; font-weight: bold " />
+						<p:password value="#{UsuarioBean.usuario.senha}" />
+
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" style="width: 100%; margin-top:10px">
+
+						<p:commandButton value="ATUALIZAR" style="color: darkblue"
+							actionListener="#{UsuarioBean.atualizar}" update="@form" />
+
+					</p:panelGrid>
+
+				</p:dialog>
+
+			</h:form>
+
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
