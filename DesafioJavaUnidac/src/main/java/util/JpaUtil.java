@@ -9,7 +9,7 @@ public class JpaUtil {
 	private static EntityManagerFactory factory;
 
 	static {
-		factory = Persistence.createEntityManagerFactory("UNIDAC");
+		factory = Persistence.createEntityManagerFactory("DesafioJavaUnidac");
 	}
 
 	public static EntityManager getEntityManager() {
